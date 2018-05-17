@@ -13,33 +13,49 @@ declare class WebpackPwaManifest extends Plugin {
 declare namespace WebpackPwaManifest {
     type Direction = 'ltr' | 'rtl' | 'auto';
     type Display = 'fullscreen' | 'standalone' | 'minimal-ui' | 'browser';
-    type Orientation = 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary';
+    type ImageResourcePurpose = 'badge' | 'any';
+    type Orientation = 'any' | 'natural' | 'landscape' | 'landscape-primary' | 'landscape-secondary' | 'portrait' | 'portrait-primary' | 'portrait-secondary' | '';
+    type ServiceWorkerRegistrationObjectType = 'module' | 'classic';
+    type ServiceWorkerRegistrationObjectUpdateViaCache = 'imports' | 'none';
     interface ManifestOptions {
         background_color?: string;
+        categories?: Array<string>;
         description?: string;
         dir?: Direction;
         display?: Display;
-        fingerprints?: boolean;
         filename?: string;
-        icons?: Icon | Icon[];
+        gcm_sender_id?: string;
+        iarc_rating_id?: string;
+        icons?: ImageResource[];
         inject?: boolean;
         lang?: string;
         name: string;
         orientation?: Orientation;
         publicPath?: string;
         prefer_related_applications?: boolean;
-        related_applications?: RelatedApplications[];
+        related_applications?: ExternalApplicationResource[];
+        serviceworker?: ServiceWorkerRegistrationObject;
         scope?: string;
+        screenshots?: ImageResource[];
+        share_target?: ShareTarget;
         short_name?: string;
         start_url?: string;
+        splash_screen_url?: string;
+        supports_share?: boolean;
         theme_color?: string;
         'theme-color'?: string;
         ios?: boolean | IosOptions;
     }
-    interface RelatedApplications {
-        platform?: string;
-        url: string;
+    interface ExternalApplicationResource {
+        fingerprints?: Fingerprint[];
         id?: string;
+        min_version?: string;
+        platform: string;
+        url?: string;
+    }
+    interface Fingerprint {
+        type: string;
+        value: string;
     }
     interface IosOptions {
         'apple-touch-icon'?: string | IosAppleTouchIcon;
@@ -52,11 +68,22 @@ declare namespace WebpackPwaManifest {
         sizes?: string | number;
         href: string;
     }
-    interface Icon {
-        src: string;
-        size?: string | number;
-        sizes?: number[];
+    interface ImageResource {
         destination?: string;
         ios?: boolean | 'default';
+        purpose?: ImageResourcePurpose;
+        size?: string | number;
+        sizes?: string | number[];
+        src: string;
+        type?: string;
+    }
+    interface ServiceWorkerRegistrationObject {
+      src: string;
+      scope?: string;
+      type?: ServiceWorkerRegistrationObjectType;
+      update_via_cache?: ServiceWorkerRegistrationObjectUpdateViaCache;
+    }
+    interface ShareTarget {
+        url_template: string;
     }
 }

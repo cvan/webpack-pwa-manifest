@@ -10,20 +10,28 @@ class WebpackPwaManifest {
     this._generator = null
     this.assets = null
     this.htmlPlugin = false
-    const shortName = options.short_name || options.name || 'App'
+    const name = (options.name || 'App').trim()
+    const shortName = (options.short_name || name).trim()
+    const categories = (options.categories || []).map(cat => (cat || '').trim().toLowerCase()).filter(cat => !!cat)
+    const startUrl = options.start_url || '.'
+    const scope = options.scope || startUrl
     this.options = Object.assign({
       filename: '[name].[hash][ext]',
-      name: 'App',
+      name: name,
       short_name: shortName,
       orientation: 'portrait',
       display: 'standalone',
-      start_url: '.',
+      start_url: startUrl,
+      scope: scope,
       inject: true,
       fingerprints: true,
       ios: false,
       publicPath: null,
       includeDirectory: true
     }, options)
+    if (categories.length) {
+      this.options.categories = categories
+    }
   }
 
   _acquireGenerator (hooks) {

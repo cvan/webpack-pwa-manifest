@@ -35,7 +35,7 @@ import WebpackPwaManifest from 'webpack-pwa-manifest'
 // ES5
 var WebpackPwaManifest = require('webpack-pwa-manifest')
 
-...
+…
 
 plugins: [
   new WebpackPwaManifest({
@@ -127,11 +127,13 @@ Presets of `options`:
 
 ```javascript
 {
-  filename: "manifest.json",
-  name: "App",
-  orientation: "portrait",
-  display: "standalone",
-  start_url: ".",
+  filename: 'manifest.json',
+  name: 'App',
+  short_name: 'App',
+  orientation: 'portrait',
+  display: 'standalone',
+  start_url: '.',
+  scope: '.',
   inject: true,
   fingerprints: true,
   ios: false,
